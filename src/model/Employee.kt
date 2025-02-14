@@ -57,15 +57,4 @@ open class Employee(
             println("Subordinate with id $employeeId not found. Not possible to remove.")
         }
     }
-
-    /**
-     *  This function updates salary and JobTitle
-     *  @param: newSalary: Double
-     *  @param: newJobTitle: JobTitle
-     *  @return Unit
-     */
-    fun updateEmployee(employee: Employee, correctedId: String, newSalary: Double, newJobTitle: JobTitle) {
-        salary = newSalary
-        jobTitle = newJobTitle
-    }
 }
