@@ -17,7 +17,7 @@ fun main() {
 
     /*
     //Testing inner class to create subordinates
-    
+
     var jobTitle1: JobTitle = JobTitle(name = "Manager", hierarchyLevel = 5)
 
     var employee: Employee = Employee(
