@@ -5,7 +5,11 @@ package model
 //Al properties set to var to be mutable (reference can change)
 //public modifier by default
 //open to allow inheritance
-open class Person(var name: String, var id: String, var gender: String, var email: String) {
+open class Person(name: String, id: String, gender: String, email: String) {
 
+    var name: String = name
+    var id: String = id
+    var gender: String = gender
+    var email: String = email
 }
 
