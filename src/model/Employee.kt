@@ -29,7 +29,7 @@ open class Employee(
     }
 
     /**
-     *  This function searchs a subordinate in the list of subordinates of an employee
+     *  This function searches a subordinate in the list of subordinates of an employee
      *  @param: employeeId: String
      *  @return Employee
      *  First calls the .find{} function, then if some subordinate is found returns it or throws an exception with a message
@@ -54,7 +54,7 @@ open class Employee(
         if(removedSubordinate){
             println("Subordinate removed successfully")
         }else{
-            println("Subordinate removed successfully")
+            println("Subordinate with id $employeeId not found. Not possible to remove.")
         }
     }
 
@@ -64,7 +64,7 @@ open class Employee(
      *  @param: newJobTitle: JobTitle
      *  @return Unit
      */
-    fun updateEmployee(newSalary: Double, newJobTitle: JobTitle) {
+    fun updateEmployee(employee: Employee, correctedId: String, newSalary: Double, newJobTitle: JobTitle) {
         salary = newSalary
         jobTitle = newJobTitle
     }
