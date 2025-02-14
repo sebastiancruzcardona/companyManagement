@@ -15,7 +15,7 @@ fun main() {
     println(firstClient.name)*/
 
 
-    /*
+
     //Testing inner class to create subordinates
 
     var jobTitle1: JobTitle = JobTitle(name = "Manager", hierarchyLevel = 5)
@@ -30,16 +30,35 @@ fun main() {
         entryYear = 2025
     )
 
-    val subordinate = Employee.Subordinate(
-        supervisor =  employee,
+    var employee2: Employee = Employee(
         name = "Anacleto",
-        id = "5555",
+        id = "6666",
         email = "rup@gmail.com",
         gender = "Not binary",
-        salary = 123.6,
+        salary = 150.6,
         jobTitle = jobTitle1,
         entryYear = 2025
     )
 
-    println(employee.subordinates[0].name)*/
+    var employee3: Employee = Employee(
+        name = "Remigio",
+        id = "7777",
+        email = "rup@gmail.com",
+        gender = "Not binary",
+        salary = 150.6,
+        jobTitle = jobTitle1,
+        entryYear = 2025
+    )
+
+    employee.addSubordinate(employee2)
+    employee.addSubordinate(employee3)
+    for(i in employee.subordinates){
+        println(i.name)
+    }
+
+    println(employee.searchSubordinate("7777").name)
+    employee.removeSubordinate("6666")
+    println(employee.searchSubordinate("6666").name)
+
+
 }
