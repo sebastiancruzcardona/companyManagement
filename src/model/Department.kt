@@ -1,9 +1,22 @@
 package model
 
-class Department(name: String, employees: MutableList<Employee>) {
+class Department(name: String) {
 
     var name: String = name
     val employees: MutableList<Employee> = mutableListOf()
+
+    /**
+     *  This function calculates a department's payroll
+     *  @param:
+     *  @return Double
+     *  Creates a payroll variable, iterates over employees, and sums ups every salary to payroll variable
+     *  returns payroll
+     */
+    fun getPayroll(): Double{
+        var payroll = 0.0
+        employees.forEach{ employee -> payroll += employee.salary}
+        return payroll
+    }
 
     /**
      *  This function links an employee to a department

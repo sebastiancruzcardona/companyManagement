@@ -1,7 +1,4 @@
-import model.Client
-import model.Employee
-import model.JobTitle
-import model.Person
+import model.*
 
 fun main() {
     /*
@@ -50,6 +47,12 @@ fun main() {
         entryYear = 2025
     )
 
+    var department: Department = Department("Publicidad")
+    department.addEmployee(employee)
+    department.addEmployee(employee2)
+    println(department.getPayroll())
+
+    /*
     employee.addSubordinate(employee2)
     employee.addSubordinate(employee3)
     for(i in employee.subordinates){
@@ -58,7 +61,8 @@ fun main() {
 
     println(employee.searchSubordinate("7777").name)
     employee.removeSubordinate("6666")
-    println(employee.searchSubordinate("6666").name)
+    println(employee.searchSubordinate("6666").name)*/
+
 
 
 }

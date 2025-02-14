@@ -6,4 +6,6 @@ class Company(legalName: String, nit: String, address: String, clients: MutableL
     var nit: String = nit
     var address: String = address
     val clients: MutableList<Client> = mutableListOf()
+
+
 }
