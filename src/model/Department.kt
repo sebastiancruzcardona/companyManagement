@@ -65,15 +65,15 @@ class Department(name: String) {
     }
 
     /**
-     *  This function updates id, salary and JobTitle
-     *  @param: employee: Employee
-     *  @param: correctedId: String
+     *  This function updates salary and JobTitle searching by id
+     *  @param: employeeId: String
      *  @param: newSalary: Double
      *  @param: newJobTitle: JobTitle
      *  @return Unit
+     *  Calls the searchEmployee function and sets attributes
      */
-    fun updateEmployee(employee: Employee, correctedId: String, newSalary: Double, newJobTitle: JobTitle) {
-        employee.id = correctedId
+    fun updateEmployee(employeeId: String, newSalary: Double, newJobTitle: JobTitle) {
+        val employee = searchEmployee(employeeId)
         employee.salary = newSalary
         employee.jobTitle = newJobTitle
     }
