@@ -1,7 +1,5 @@
 package model
 
-import kotlin.jvm.Throws
-
 class Department(
     var name: String
 ) {
