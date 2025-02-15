@@ -35,7 +35,7 @@ class Department(
     }
 
     /**
-     * Searches an employee in the department by their ID.
+     * Searches an employee in the department by ID.
      *
      * Calls findEmployee()
      * Handles the NoSuchElementException with a try catch block

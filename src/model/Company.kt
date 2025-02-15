@@ -72,6 +72,25 @@ object Company {
         }
     }
 
+    /**
+     * Searches a department in the departments list by name.
+     *
+     * Calls findDepartment()
+     * Handles the NoSuchElementException with a try catch block
+     *
+     * @param departmentName The ID to search for.
+     *
+     * @return The Department object corresponding to the given name or null
+     * */
+    fun searchDepartment(departmentName: String): Department? {
+        try {
+            return findDepartment(departmentName)
+        }catch (e: Exception){
+            println(e.message)
+        }
+        return null
+    }
+
 
         // Old functions, revise and add exceptions to them. Could also optimize them.
 
@@ -104,14 +123,7 @@ object Company {
 //    }
 //
 //    //
-//    fun searchDepartment(departmentName: String): Department {
-//        val department = departments.find { department -> department.name == departmentName }
-//        if (department != null) {
-//            return department
-//        }
-//        throw NoSuchElementException("Department $departmentName does not exist")
-//
-//    }
+
 //
 //    fun removeDepartment(departmentName: String) {
 //        val removedDepartment = departments.removeIf { department -> department.name == departmentName }
@@ -167,6 +179,25 @@ object Company {
             "Could not add department. ${department.name} department already exists."
         }
         departments.add(department)
+    }
+
+    /**
+     * Searches for a department in the company by name.
+     *
+     * Looks for a department in the departments list by name.
+     * If the department is found, it returns a Department object.
+     * If no department with the given name exists, a NoSuchElementException is thrown.
+     *
+     * @param departmentName The name to search for.
+     *
+     * @return The Department object corresponding to the given name.
+     *
+     * @throws NoSuchElementException If no department with the specified name is found in the comapny.
+     */
+    private fun findDepartment(departmentName: String): Department {
+        val department: Department = departments.find { it.name == departmentName }
+            ?: throw NoSuchElementException("There is not a department called $departmentName")
+        return department
     }
 
 }

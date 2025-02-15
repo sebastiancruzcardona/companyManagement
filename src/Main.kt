@@ -99,6 +99,10 @@ fun main() {
     var test: Department = Department("Sales")
     Company.addDepartment(test)
 
+    //.searchDepartment()
+    println(Company.searchDepartment("was")?.employees?.get(0)?.name)
+
+
 
 
 }
