@@ -186,8 +186,9 @@ object Company {
     }
 
 
-        // Old functions, revise and add exceptions to them. Could also optimize them.
+        //Remaining functions to implement. With the remaining CRUD functions, it's mostly a matter of copying and adapting.
 
+    //two business logic functions
 //    fun getPercentageClientsByGender(): Map<String, Double> {
 //
 //    }
@@ -195,7 +196,7 @@ object Company {
 //
 //    }
 
-
+    //two Client CRUD fuctions
 //    fun removeClient(clientId: String) {
 //
 //    }
@@ -203,7 +204,8 @@ object Company {
 //    fun updateClient(clientId: String, address: String, phoneNumber: String) {
 //
 //    }
-    
+
+    //All JobTitle CRUD functions
 //    fun addJobTitle(client: Client) {
 //
 //    }
