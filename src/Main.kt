@@ -15,7 +15,7 @@ fun main() {
 
     //Testing inner class to create subordinates
 
-    var jobTitle1: JobTitle = JobTitle(name = "Manager", hierarchyLevel = 5)
+   /* var jobTitle1: JobTitle = JobTitle(name = "Manager", hierarchyLevel = 5)
 
     var employee: Employee = Employee(
         name = "Ruperto",
@@ -61,7 +61,32 @@ fun main() {
 
     println(employee.searchSubordinate("7777").name)
     employee.removeSubordinate("6666")
-    println(employee.searchSubordinate("6666").name)*/
+    println(employee.searchSubordinate("6666").name)*/*/
+
+    //Initialize Company to start
+    Company.init()
+
+    //getTotalPayroll() test
+    println(Company.getTotalPayroll())
+
+    //Department test
+    //.addEmployee()
+    var department: Department = Department("Test")
+    var jobTitle1: JobTitle = JobTitle("Test", 2)
+    var employee: Employee = Employee("555", "Pepito", "Male", "pepito@mail.com", 5.0, 2025, jobTitle1)
+    department.addEmployee(employee)
+    var employee2: Employee = Employee("555", "Pepita", "Female", "pepita@mail.com", 5.0, 2025, jobTitle1)
+    department.addEmployee(employee2)
+
+    //.searchEmployee()
+    department.searchEmployee("777")
+
+    //.removeEmployee()
+    //department.removeEmployee("555")
+
+    //.updateEmployee()
+    department.updateEmployee("555", 24.5, jobTitle1)
+    println(department.employees[0].salary)
 
 
 
