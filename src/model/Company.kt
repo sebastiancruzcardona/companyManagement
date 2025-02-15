@@ -54,7 +54,26 @@ object Company {
         return null
     }
 
-    // Old functions, revise and add exceptions to them. Could also optimize them.
+    /**
+     * Adds a department to the company if the department to add is not registered.
+     *
+     * Calls createDepartment()
+     * Handles the IllegalStateException with a try catch block
+     *
+     * @param department The department to be added to the company.
+     *
+     * @return Unit
+     * */
+    fun addDepartment(department: Department) {
+        try {
+            createDepartment(department)
+        }catch (e: Exception){
+            println(e.message)
+        }
+    }
+
+
+        // Old functions, revise and add exceptions to them. Could also optimize them.
 
 //    fun getPercentageClientsByGender(): Map<String, Double> {
 //
@@ -84,15 +103,7 @@ object Company {
 //
 //    }
 //
-//    fun addDepartment(department: Department) {
-//        if (!departments.contains(department)) {
-//            departments.add(department)
-//            println("Department added successfully")
-//        } else {
-//            println("The department ${department.name} already exist in the company")
-//        }
-//    }
-//
+//    //
 //    fun searchDepartment(departmentName: String): Department {
 //        val department = departments.find { department -> department.name == departmentName }
 //        if (department != null) {
@@ -136,6 +147,26 @@ object Company {
         val department: Department = departments.find { it.name == departmentName }
             ?: throw NoSuchElementException("There is not a department called $departmentName")
         return department.getPayroll()
+    }
+
+    /**
+     * Adds a department to the company if the department to add is not registered.
+     *
+     * Checks whether a department with the same name already exists in the company.
+     * If the department is found, an error message is printed.
+     * If the department is not found, adds the department.
+     *
+     * @param department The department to be added to the company.
+     *
+     * @return Unit.
+     *
+     * @throws IllegalStateException If a department with the same name already exists in the company.
+     */
+    private fun createDepartment(department: Department) {
+        check(departments.find { it.name == department.name } == null){
+            "Could not add department. ${department.name} department already exists."
+        }
+        departments.add(department)
     }
 
 }

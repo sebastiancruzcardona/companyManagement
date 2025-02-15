@@ -69,26 +69,35 @@ fun main() {
     //getTotalPayroll() test
     println(Company.getTotalPayroll())
 
-    //Department test
+    //Department tests
     //.addEmployee()
-    var department: Department = Department("Test")
-    var jobTitle1: JobTitle = JobTitle("Test", 2)
-    var employee: Employee = Employee("555", "Pepito", "Male", "pepito@mail.com", 5.0, 2025, jobTitle1)
-    department.addEmployee(employee)
-    var employee2: Employee = Employee("555", "Pepita", "Female", "pepita@mail.com", 5.0, 2025, jobTitle1)
-    department.addEmployee(employee2)
+    var salesDepartment: Department = Department("Sales")
+    var sellerJobTitle: JobTitle = JobTitle("Seller", 2)
+    var employee1: Employee = Employee("555", "Pepito", "Male", "pepito@mail.com", 5.0, 2025, sellerJobTitle)
+    salesDepartment.addEmployee(employee1)
+    var employee2: Employee = Employee("555", "Pepita", "Female", "pepita@mail.com", 5.0, 2025, sellerJobTitle)
+    salesDepartment.addEmployee(employee2)
 
     //.searchEmployee()
-    department.searchEmployee("777")
+    salesDepartment.searchEmployee("777")
 
     //.removeEmployee()
     //department.removeEmployee("555")
 
     //.updateEmployee()
-    department.updateEmployee("555", 24.5, jobTitle1)
-    println(department.employees[0].salary)
+    salesDepartment.updateEmployee("555", 24.5, sellerJobTitle)
+    println(salesDepartment.employees[0].salary)
 
+    //other Company tests
+    //.getPayrollByDepartment()
     println(Company.getPayrollByDepartment("Central Departmento"))
+
+    //.addDepartment()
+    //Added
+    Company.addDepartment(salesDepartment)
+    //Department already exist
+    var test: Department = Department("Sales")
+    Company.addDepartment(test)
 
 
 

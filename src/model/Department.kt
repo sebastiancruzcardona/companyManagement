@@ -96,10 +96,12 @@ class Department(
      * Adds an employee to the department if the employee to add is not registered.
      *
      * Checks whether an employee with the same ID already exists in the department.
-     * If the employee is found, an error message is printed, and they are not added again.
+     * If the employee is found, an error message is printed.
      * If the employee is not found, adds the employee.
      *
      * @param employee The employee to be added to the department.
+     *
+     * @return Unit
      *
      * @throws IllegalStateException If an employee with the same ID already exists in the department.
      */
