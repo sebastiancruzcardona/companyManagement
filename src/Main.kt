@@ -88,6 +88,8 @@ fun main() {
     department.updateEmployee("555", 24.5, jobTitle1)
     println(department.employees[0].salary)
 
+    println(Company.getPayrollByDepartment("Central Departmento"))
+
 
 
 }

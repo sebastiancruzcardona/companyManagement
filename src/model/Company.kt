@@ -16,9 +16,9 @@ object Company {
      * @param employee
      */
     fun init(
-        department: Department = Department("Department"),
+        department: Department = Department("Central Department"),
         jobTitle: JobTitle = JobTitle("Admin", 5),
-        employee: Employee = Employee("1", "One", "None", "Email", 0.00, 2025, jobTitle),
+        employee: Employee = Employee("1", "One", "None", "Email", 50.00, 2025, jobTitle),
     ) {
         jobTitles.add(jobTitle)
         department.employees.add(employee)
@@ -36,13 +36,22 @@ object Company {
     }
 
     /**
-     * Finds the payroll of a specific department by name
+     * Finds the payroll of a specific department by name.
      *
-     * @param departmentName
-     * @return The department's payroll
-     */
-    fun getPayrollByDepartment(departmentName: String): Double {
-        return departments.find { it.name == departmentName} ?.getPayroll() ?: 0.0
+     * Calls obtainPayrollByDepartment()
+     * Handles the NoSuchElementException with a try catch block
+     *
+     * @param departmentName The name to search for.
+     *
+     * @return The department payroll or null
+     * */
+    fun getPayrollByDepartment(departmentName: String): Double? {
+        try {
+            return obtainPayrollByDepartment(departmentName)
+        }catch (e: Exception){
+            println(e.message)
+        }
+        return null
     }
 
     // Old functions, revise and add exceptions to them. Could also optimize them.
@@ -106,4 +115,27 @@ object Company {
 //        val department = searchDepartment(departmentName)
 //        department.name = departmentName
 //    }
+
+
+    //SERVICE LAYER LIKE FUNCTIONS
+
+    /**
+     * Finds the payroll of a specific department by name.
+     *
+     * Looks for department in the departments list by name.
+     * If the department is found, it returns department.getPayroll()
+     * If no department with the given name exists, a NoSuchElementException is thrown.
+     *
+     * @param departmentName
+     *
+     * @return The department's payroll
+     *
+     * @throws NoSuchElementException If no department with the specified ID is found.
+     */
+    private fun obtainPayrollByDepartment(departmentName: String): Double {
+        val department: Department = departments.find { it.name == departmentName }
+            ?: throw NoSuchElementException("There is not a department called $departmentName")
+        return department.getPayroll()
+    }
+
 }
