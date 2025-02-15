@@ -128,6 +128,26 @@ object Company {
         }
     }
 
+    /**
+     * Calculates the total number of employees for each job title across all departments.
+     *
+     * This function iterates through the list of jobTitles. For each title,
+     * sums up the number of employees with that title in all departments.
+     * The result is stored in a map where:
+     * - The key (String) is the jobTitle name.
+     * - The value (Int) is the total number of employees with that job title.
+     *
+     * @return A <Map<String, Int> where each key is a job title and each value is the total count of employees with that title.
+     *
+     */
+    fun getTotalEmployeesByJobTitle(): Map<String, Int> {
+        val map: MutableMap<String, Int> = mutableMapOf()
+        jobTitles.forEach { jobTitle ->
+            map[jobTitle.name] = departments.sumOf { it.getTotalEmployeesByJobTitle(jobTitle.name) }
+        }
+        return map
+    }
+
 
         // Old functions, revise and add exceptions to them. Could also optimize them.
 
@@ -135,9 +155,7 @@ object Company {
 //
 //    }
 //
-//    fun getTotalEmployeesByJobTitle(): Map<String, Int> {
-//
-//    }
+
 //
 //    fun getOldestEmployee(): Employee {
 //
@@ -159,11 +177,21 @@ object Company {
 //
 //    }
 //
-//    //
-
+//    fun addJobTitle(client: Client) {
 //
-
+//    }
 //
+//    fun searchJobTitle(clientId: String): Client {
+//
+//    }
+//
+//    fun removeJobTitle(clientId: String) {
+//
+//    }
+//
+//    fun updateJobTitle(clientId: String, address: String, phoneNumber: String) {
+//
+//    }
 
 
 

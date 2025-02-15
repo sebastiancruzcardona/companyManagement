@@ -115,6 +115,7 @@ fun main() {
     Company.removeDepartment("asdasg")
     println()
 
+    println(Company.getTotalEmployeesByJobTitle())
 
 
 

@@ -15,6 +15,20 @@ class Department(
     }
 
     /**
+     * Counts the total number of employees with a specific job title.
+     *
+     * Iterates through the employees list and counts how many employees
+     * have a job title that matches the given jobTitle String.
+     *
+     * @param jobTitle The job title to filter employees by.
+     *
+     * @return The total number of employees with the specified job title in the department.
+     */
+    fun getTotalEmployeesByJobTitle(jobTitle: String): Int {
+        return employees.count { it.jobTitle.name == jobTitle }
+    }
+
+    /**
      * Adds an employee to the department if the employee to add is not registered
      *
      * Calls createEmployee()
