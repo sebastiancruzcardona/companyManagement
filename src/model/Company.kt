@@ -17,7 +17,7 @@ object Company {
      */
     fun init(
         department: Department = Department("Central Department"),
-        jobTitle: JobTitle = JobTitle("Admin", 5),
+        jobTitle: JobTitle = JobTitle("CEO", 5),
         employee: Employee = Employee("1", "One", "None", "Email", 50.00, 2025, jobTitle),
     ) {
         jobTitles.add(jobTitle)
@@ -52,6 +52,26 @@ object Company {
             println(e.message)
         }
         return null
+    }
+
+    /**
+     * Calculates the total number of employees for each job title across all departments.
+     *
+     * This function iterates through the list of jobTitles. For each title,
+     * sums up the number of employees with that title in all departments.
+     * The result is stored in a map where:
+     * - The key (String) is the jobTitle name.
+     * - The value (Int) is the total number of employees with that job title.
+     *
+     * @return A <Map<String, Int> where each key is a job title and each value is the total count of employees with that title.
+     *
+     */
+    fun getTotalEmployeesByJobTitle(): Map<String, Int> {
+        val map: MutableMap<String, Int> = mutableMapOf()
+        jobTitles.forEach { jobTitle ->
+            map[jobTitle.name] = departments.sumOf { it.getTotalEmployeesByJobTitle(jobTitle.name) }
+        }
+        return map
     }
 
     /**
@@ -129,23 +149,40 @@ object Company {
     }
 
     /**
-     * Calculates the total number of employees for each job title across all departments.
+     * Adds a CLIENT to the company's clients list if the client to add is not registered.
      *
-     * This function iterates through the list of jobTitles. For each title,
-     * sums up the number of employees with that title in all departments.
-     * The result is stored in a map where:
-     * - The key (String) is the jobTitle name.
-     * - The value (Int) is the total number of employees with that job title.
+     * Calls createClient()
+     * Handles the IllegalStateException with a try catch block
      *
-     * @return A <Map<String, Int> where each key is a job title and each value is the total count of employees with that title.
+     * @param client The client to be added to the company's clients list.
      *
-     */
-    fun getTotalEmployeesByJobTitle(): Map<String, Int> {
-        val map: MutableMap<String, Int> = mutableMapOf()
-        jobTitles.forEach { jobTitle ->
-            map[jobTitle.name] = departments.sumOf { it.getTotalEmployeesByJobTitle(jobTitle.name) }
+     * @return Unit
+     * */
+    fun addClient(client: Client) {
+        try {
+            createClient(client)
+        }catch (e: Exception){
+            println(e.message)
         }
-        return map
+    }
+
+    /**
+     * Searches a client in the company's clients list by ID.
+     *
+     * Calls findClient()
+     * Handles the NoSuchElementException with a try catch block
+     *
+     * @param clientId The ID to search for.
+     *
+     * @return The Client object corresponding to the given ID or null
+     * */
+    fun searchClient(clientId: String): Client? {
+        try {
+            return findClient(clientId)
+        } catch (e: Exception) {
+            println(e.message)
+        }
+        return null
     }
 
 
@@ -154,21 +191,11 @@ object Company {
 //    fun getPercentageClientsByGender(): Map<String, Double> {
 //
 //    }
-//
-
-//
 //    fun getOldestEmployee(): Employee {
 //
 //    }
-//
-//    fun addClient(client: Client) {
-//
-//    }
-//
-//    fun searchClient(clientId: String): Client {
-//
-//    }
-//
+
+
 //    fun removeClient(clientId: String) {
 //
 //    }
@@ -176,7 +203,7 @@ object Company {
 //    fun updateClient(clientId: String, address: String, phoneNumber: String) {
 //
 //    }
-//
+    
 //    fun addJobTitle(client: Client) {
 //
 //    }
@@ -273,4 +300,42 @@ object Company {
         }
     }
 
+    /**
+     * Adds a client to the company's clients list if the client to add is not registered.
+     *
+     * Checks whether a client with the same ID already exists.
+     * If the client is found, an error message is printed.
+     * If the client is not found, adds the client.
+     *
+     * @param client The client to be added.
+     *
+     * @return Unit
+     *
+     * @throws IllegalStateException If an employee with the same ID already exists in the department.
+     */
+    private fun createClient(client: Client) {
+        check(clients.find { it.id == client.id } == null) {
+            "There is already a client identified with the id ${client.id}."
+        }
+        clients.add(client)
+    }
+
+    /**
+     * Searches for a client in the company's clients list by ID.
+     *
+     * Looks for a client in the company's clients list by name.
+     * If the client is found, it returns a Client object.
+     * If no client with the given ID exists, a NoSuchElementException is thrown.
+     *
+     * @param clientId The ID to search for.
+     *
+     * @return The Client object corresponding to the given ID.
+     *
+     * @throws NoSuchElementException If no client with the specified ID is found in the company's clients list.
+     */
+    private fun findClient(clientId: String): Client {
+        val client: Client = clients.find { it.id == clientId }
+            ?: throw NoSuchElementException("There is not an client registered with id $clientId")
+        return client
+    }
 }
