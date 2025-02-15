@@ -55,12 +55,12 @@ object Company {
     }
 
     /**
-     * Adds a department to the company if the department to add is not registered.
+     * Adds a department to the company's department list if the department to add is not registered.
      *
      * Calls createDepartment()
      * Handles the IllegalStateException with a try catch block
      *
-     * @param department The department to be added to the company.
+     * @param department The department to be added to the company's departments list.
      *
      * @return Unit
      * */
@@ -89,6 +89,43 @@ object Company {
             println(e.message)
         }
         return null
+    }
+
+    /**
+     * Removes a department from the company's departments list by name.
+     *
+     * Calls deleteDepartment()
+     * Handles the IllegalStateException with a try catch block
+     *
+     * @param departmentName The name to search for.
+     *
+     * @return Unit
+     * */
+    fun removeDepartment(departmentName: String) {
+        try {
+            deleteDepartment(departmentName)
+        }catch (e: IllegalStateException){
+            println(e.message)
+        }
+    }
+
+    /**
+     * Updates a department's name.
+     *
+     * Calls searchDepartment()
+     * If the department exists, changes its name.
+     * If no department with the given name exists, does not perform anything
+     *
+     * @param departmentName The name to search for.
+     * @param newName The new name to assign
+     *
+     * @return Unit
+     * */
+    fun updateDepartment(departmentName: String, newName: String) {
+        val department: Department? = searchDepartment(departmentName)
+        if (department != null) {
+            department.name = departmentName
+        }
     }
 
 
@@ -125,19 +162,9 @@ object Company {
 //    //
 
 //
-//    fun removeDepartment(departmentName: String) {
-//        val removedDepartment = departments.removeIf { department -> department.name == departmentName }
-//        if (removedDepartment) {
-//            println("Department removed successfully")
-//        } else {
-//            println("There is not such department. Not possible to remove.")
-//        }
-//    }
+
 //
-//    fun updateDepartment(departmentName: String) {
-//        val department = searchDepartment(departmentName)
-//        department.name = departmentName
-//    }
+
 
 
     //SERVICE LAYER LIKE FUNCTIONS
@@ -162,17 +189,17 @@ object Company {
     }
 
     /**
-     * Adds a department to the company if the department to add is not registered.
+     * Adds a department to the company's department list if the department to add is not registered.
      *
      * Checks whether a department with the same name already exists in the company.
      * If the department is found, an error message is printed.
      * If the department is not found, adds the department.
      *
-     * @param department The department to be added to the company.
+     * @param department The department to be added to the company's departments list.
      *
      * @return Unit.
      *
-     * @throws IllegalStateException If a department with the same name already exists in the company.
+     * @throws IllegalStateException If a department with the same name already exists in the company's departments list.
      */
     private fun createDepartment(department: Department) {
         check(departments.find { it.name == department.name } == null){
@@ -182,9 +209,9 @@ object Company {
     }
 
     /**
-     * Searches for a department in the company by name.
+     * Searches for a department in the company's department list by name.
      *
-     * Looks for a department in the departments list by name.
+     * Looks for a department in the company's department list by name.
      * If the department is found, it returns a Department object.
      * If no department with the given name exists, a NoSuchElementException is thrown.
      *
@@ -192,12 +219,30 @@ object Company {
      *
      * @return The Department object corresponding to the given name.
      *
-     * @throws NoSuchElementException If no department with the specified name is found in the comapny.
+     * @throws NoSuchElementException If no department with the specified name is found in the company's department list.
      */
     private fun findDepartment(departmentName: String): Department {
         val department: Department = departments.find { it.name == departmentName }
             ?: throw NoSuchElementException("There is not a department called $departmentName")
         return department
+    }
+
+    /**
+     * Deletes a department from the company's departments list based on name.
+     *
+     * This function removes a department with the given departmentName from the departments list.
+     * If no department with the given name exists, it throws an IllegalStateException.
+     *
+     * @param departmentName The name of the department to be removed.
+     *
+     * @return Unit
+     *
+     * @throws IllegalStateException If the department does not exist in the company's departments list.
+     */
+    private fun deleteDepartment(departmentName: String) {
+        check(departments.removeIf { it.name == departmentName }){
+            "Could not remove. There is not $departmentName department registered."
+        }
     }
 
 }

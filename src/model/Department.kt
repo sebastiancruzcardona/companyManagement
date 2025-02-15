@@ -130,7 +130,7 @@ class Department(
     }
 
     /**
-     * Deletes an employee from the department based on their ID.
+     * Deletes an employee from the department based on ID.
      *
      * This function removes an employee with the given employeeId from the employees list.
      * If no employee with the given ID exists, it throws an IllegalStateException.

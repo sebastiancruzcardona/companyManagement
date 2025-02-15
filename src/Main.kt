@@ -68,6 +68,7 @@ fun main() {
 
     //getTotalPayroll() test
     println(Company.getTotalPayroll())
+    println()
 
     //Department tests
     //.addEmployee()
@@ -75,11 +76,14 @@ fun main() {
     var sellerJobTitle: JobTitle = JobTitle("Seller", 2)
     var employee1: Employee = Employee("555", "Pepito", "Male", "pepito@mail.com", 5.0, 2025, sellerJobTitle)
     salesDepartment.addEmployee(employee1)
+    println()
     var employee2: Employee = Employee("555", "Pepita", "Female", "pepita@mail.com", 5.0, 2025, sellerJobTitle)
     salesDepartment.addEmployee(employee2)
+    println()
 
     //.searchEmployee()
     salesDepartment.searchEmployee("777")
+    println()
 
     //.removeEmployee()
     //department.removeEmployee("555")
@@ -87,20 +91,29 @@ fun main() {
     //.updateEmployee()
     salesDepartment.updateEmployee("555", 24.5, sellerJobTitle)
     println(salesDepartment.employees[0].salary)
+    println()
 
     //other Company tests
     //.getPayrollByDepartment()
-    println(Company.getPayrollByDepartment("Central Departmento"))
+    println(Company.getPayrollByDepartment("Central Departmentoo"))
+    println()
 
     //.addDepartment()
     //Added
     Company.addDepartment(salesDepartment)
+    println()
     //Department already exist
     var test: Department = Department("Sales")
     Company.addDepartment(test)
+    println()
 
-    //.searchDepartment()
+    //.searchDepartment() not found
     println(Company.searchDepartment("was")?.employees?.get(0)?.name)
+    println()
+
+    //.removeDepartment()
+    Company.removeDepartment("asdasg")
+    println()
 
 
 
