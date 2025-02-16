@@ -2,6 +2,7 @@ package model
 
 import ClientAlreadyExistsException
 import ClientNotFoundException
+import CompanyMustHaveDepartmentsException
 import DepartmentAlreadyExistsException
 import DepartmentNotFoundException
 import FieldTakenException
@@ -84,9 +85,31 @@ object Company {
     fun getEmployeesByJobTitle(jobTitle: String): Int =
         departments.sumOf { it.getTotalEmployeesByJobTitle(jobTitle) }
 
-//    fun getOldestEmployee(): Map<Employee, Department>
-//
-//    fun getPercentageClientsByGender(): Map<String, Double>
+    /**
+     * Gets the company's oldest employee and their department
+     *
+     * @return Map<Employee, Department>
+     */
+    fun getOldestEmployee(): Map<Employee, Department> {
+        val oldestEmployee = getAllEmployees().minByOrNull { it.entryYear }!!
+        val department = departments.find { department ->
+            department.employees.any { it.id == oldestEmployee.id } }!! // non-null assertion (!!) because there is always at least one employee (and therefore, at least one department)
+        return mapOf(oldestEmployee to department)
+    }
+
+    /**
+     * Calculates the percentage of employees by their gender
+     *
+     * @return Map<String, Double> Where the key is the gender and the value is the percentage
+     *         of employees with said gender (rounded up to 2 decimal spaces)
+     */
+    fun getPercentageClientsByGender(): Map<String, Double> {
+        val genderCount = getAllEmployees().groupingBy { it.gender }.eachCount() // groups employees by gender and total with said gender ({ "male" to 7, "female" to 8 }, etc).
+        return genderCount.mapValues { (_, count) -> // "_" means we ignore the key (gender) and modify only the value (count of employees with said gender)
+            "%.2f".format((count.toDouble()/ getAllEmployees().size) * 100).toDouble() // converts the count to double to ensure accurate division, divides by total amount of employees, and multiplies by 100 to convert into percentage
+            // additionally, rounds up to two decimal places
+        }
+    }
 
     // ---------------- Department CRUD ----------------  //
 
@@ -119,6 +142,9 @@ object Company {
      * @throws DepartmentNotFoundException If no department exists with inputted name
      * */
     fun removeDepartment(departmentName: String) {
+        if (departments.size == 1) {
+            throw CompanyMustHaveDepartmentsException()
+        }
         if (!departments.removeIf { it.name == departmentName }) {
             throw DepartmentNotFoundException(departmentName)
         }
