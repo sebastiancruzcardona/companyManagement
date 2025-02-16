@@ -13,3 +13,6 @@ class EmployeeNotFoundException(id: String) : Exception("Couldn't find employee 
 
 class SubordinateAlreadyRegisteredException(id: String) : Exception("Subordinate with ID '$id' is already registered")
 class SubordinateNotFoundException(id: String) : Exception("Couldn't find subordinate with ID '$id'")
+
+class CompanyMustHaveDepartmentsException() : Exception("The company must always have at least one department")
+class DepartmentMustHaveEmployeesException() : Exception("A department must always have at least one employee.")

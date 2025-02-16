@@ -1,5 +1,6 @@
 package model
 
+import DepartmentMustHaveEmployeesException
 import EmployeeAlreadyExistsException
 import EmployeeNotFoundException
 import FieldTakenException
@@ -64,6 +65,9 @@ class Department(
      * @throws EmployeeNotFoundException If no employee exists with inputted ID
      * */
     fun removeEmployee(employeeId: String) {
+        if (employees.size == 1) {
+            throw DepartmentMustHaveEmployeesException()
+        }
         if (!employees.removeIf { it.id == employeeId }) {
             throw EmployeeNotFoundException(employeeId)
         }
