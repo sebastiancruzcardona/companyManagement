@@ -73,6 +73,9 @@ class Department(
      * @param email The new email
      * @param salary The new salary
      * @param jobTitle The new job title
+     *
+     * @throws FieldTakenException If the new email is already taken
+     * @throws JobTitleNotFoundException If the job title does not exist in the company's job title list
      * */
     fun updateEmployee(
         employeeId: String,
