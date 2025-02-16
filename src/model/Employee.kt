@@ -1,5 +1,6 @@
 package model
 
+import model.Company.clients
 import java.time.Year
 
 open class Employee(
@@ -20,55 +21,79 @@ open class Employee(
      * @param currentYear Defaults to Year.now()
      * @return Difference between employee's entry year and given year
      */
-    fun getTimeInCompany(currentYear: Year = Year.now()): Int {
-        return currentYear.value - entryYear
+    fun getTimeInCompany(currentYear: Int = Year.now().value): Int = currentYear - entryYear
+
+    // ---------------- Subordinate CRUD ----------------  //
+
+    // This function checks the subordinate already exists as an employee AND isn't already registered as someone's subordinate.
+
+    /**
+     * Adds a subordinate to the employee's subordinate list if the subordinate is not under another or the same employee
+     *
+     * @param subordinate The employee object to be added to the employee's subordinate list
+     * @throws SubordinateAlreadyRegisteredException If the subordinate is already registered to an employee
+     * @throws SubordinateNotFoundException If the subordinate does not exist as an employee
+     * */
+    fun addSubordinate(subordinate: Employee) {
+        if (subordinate !in Company.getAllEmployees()) { throw SubordinateNotFoundException(subordinate.id) }
+        if (Company.getAllEmployees().any { it.subordinates.contains(subordinate) }) {
+            throw SubordinateAlreadyRegisteredException(subordinate.id)
+        }
+        subordinates.add(subordinate)
     }
 
-    // Old functions, revise and add exceptions to them. Could also optimize them.
+    /**
+     * Searches a subordinate in the subordinates list by ID
+     *
+     * @param subordinateId The ID to search for
+     * @throws SubordinateNotFoundException If no subordinate exists with inputted ID
+     * */
+    fun findSubordinate(subordinateId: String): Employee =
+        subordinates.find { it.id == subordinateId } ?: throw SubordinateNotFoundException(subordinateId)
 
-//    /**
-//     *  This function adds a subordinate to an employee
-//     *  @param: subordinate: Employee
-//     *  @return Unit
-//     *  First validates if argument is not already a subordinate of this and if this is not subordinate of the argument.
-//     *  Then prints a message
-//     */
-//    fun addSubordinate(subordinate: Employee) {
-//        if(!subordinates.contains(subordinate) && !subordinate.subordinates.contains(this)) {
-//            subordinates.add(subordinate)
-//            println("Subordinate added successfully")
-//        }else{
-//            println("Already a subordinate of this employee")
-//        }
-//    }
-//
-//    /**
-//     *  This function searches a subordinate in the list of subordinates of an employee
-//     *  @param: employeeId: String
-//     *  @return Employee
-//     *  First calls the .find{} function, then if some subordinate is found returns it or throws an exception with a message
-//     */
-//    fun searchSubordinate(employeeId: String): Employee {
-//        val subordinate = subordinates.find { subordinate -> subordinate.id == employeeId }
-//        if(subordinate != null){
-//            return subordinate
-//        }
-//        throw NoSuchElementException("Subordinate with id $employeeId not found")
-//    }
-//
-//    /**
-//     *  This function removes a subordinate from the list of subordinates of an employee
-//     *  @param: employeeId: String
-//     *  @return Unit
-//     *  First calls the .removeIf{} function, that returns true or false.
-//     *  Prints a message for each case
-//     */
-//    fun removeSubordinate(employeeId: String) {
-//        val removedSubordinate = subordinates.removeIf { subordinate -> subordinate.id == employeeId }
-//        if(removedSubordinate){
-//            println("Subordinate removed successfully")
-//        }else{
-//            println("Subordinate with id $employeeId not found. Not possible to remove.")
-//        }
-//    }
+    /**
+     * Removes a subordinate from the company's subordinate list by ID
+     *
+     * @param subordinateId The ID to search for
+     * @throws SubordinateNotFoundException If no subordinate exists with inputted ID
+     * */
+    fun removeSubordinate(subordinateId: String) {
+        if (!subordinates.removeIf { it.id == subordinateId }) {
+            throw SubordinateNotFoundException(subordinateId)
+        }
+    }
+
+    /**
+     * Updates a subordinate's data
+     *
+     * @param subordinateId The subordinate to update
+     * @param name The new name
+     * @param gender The new gender
+     * @param email The new email
+     * @param salary The new salary
+     * @param jobTitle The new job title
+     * */
+    fun updateSubordinate(
+        subordinateId: String,
+        name: String?,
+        gender: String?,
+        email: String?,
+        salary: Double?,
+        jobTitle: JobTitle?
+    ) {
+        val subordinate = findSubordinate(subordinateId)
+
+        if (email != null && Company.getAllEmployees().any { it.email == email && it.id != subordinateId }) {
+            throw FieldTakenException("Email", email)
+        }
+        if (jobTitle != null && Company.jobTitles.none { it.name == jobTitle.name }) {
+            throw JobTitleNotFoundException(jobTitle.name)
+        }
+
+        name?.let { subordinate.name = it }
+        gender?.let { subordinate.gender = it }
+        email?.let { subordinate.email = it }
+        salary?.let { subordinate.salary = it }
+        jobTitle?.let { subordinate.jobTitle = it }
+    }
 }
