@@ -35,7 +35,9 @@ open class Employee(
      * @throws SubordinateNotFoundException If the subordinate does not exist as an employee
      * */
     fun addSubordinate(subordinate: Employee) {
-        if (subordinate !in Company.getAllEmployees()) { throw SubordinateNotFoundException(subordinate.id) }
+        if (Company.getAllEmployees().none { it.id == subordinate.id }) {
+            throw SubordinateNotFoundException(subordinate.id)
+        }
         if (Company.getAllEmployees().any { it.subordinates.contains(subordinate) }) {
             throw SubordinateAlreadyRegisteredException(subordinate.id)
         }
@@ -72,6 +74,9 @@ open class Employee(
      * @param email The new email
      * @param salary The new salary
      * @param jobTitle The new job title
+     *
+     * @throws FieldTakenException If the new email is taken
+     * @throws JobTitleNotFoundException If the job title does not exist in the company's job title list
      * */
     fun updateSubordinate(
         subordinateId: String,
@@ -90,10 +95,12 @@ open class Employee(
             throw JobTitleNotFoundException(jobTitle.name)
         }
 
-        name?.let { subordinate.name = it }
-        gender?.let { subordinate.gender = it }
-        email?.let { subordinate.email = it }
-        salary?.let { subordinate.salary = it }
-        jobTitle?.let { subordinate.jobTitle = it }
+        subordinate.apply {
+            name?.let { this.name = it }
+            gender?.let { this.gender = it }
+            email?.let { this.email = it }
+            salary?.let { this.salary = it }
+            jobTitle?.let { this.jobTitle = it }
+        }
     }
 }
