@@ -1,26 +1,17 @@
 package model
 
-// handle exceptions in main, a single try catch and take any error and display the message
-// function docs don't need to be so complex
-// optimized some small stuff and created custom exceptions
-
-class DepartmentNotFoundException(name: String) : Exception("Couldn't find department '$name'")
-class DepartmentAlreadyExistsException(name: String) : Exception("Department '$name' already exists")
-
-class ClientNotFoundException(id: String) : Exception("Couldn't find client with ID '$id'")
-class ClientAlreadyExistsException(field: String, id: String) : Exception("Client with $field '$id' already exists")
-class FieldTakenException(field: String, value: String) : Exception("$field '$value' is already taken")
-
-class JobTitleNotFoundException(name: String) : Exception("Couldn't find job title '$name'")
-class JobTitleAlreadyExistsException(name: String) : Exception("Job title '$name' already exists")
-
-class SubordinateNotFoundException(id: String) : Exception("Couldn't find employee with ID '$id'")
-class SubordinateAlreadyRegisteredException(id: String) : Exception("Subordinate with ID '$id' is already registered")
+import ClientAlreadyExistsException
+import ClientNotFoundException
+import DepartmentAlreadyExistsException
+import DepartmentNotFoundException
+import FieldTakenException
+import JobTitleAlreadyExistsException
+import JobTitleNotFoundException
 
 object Company {
-    private var legalName: String = "Company Name"
-    private var nit: String = "000000000"
-    private var address: String = "Address"
+    private val legalName: String = "Company Name"
+    private val nit: String = "000000000"
+    private val address: String = "Address"
     val clients: MutableList<Client> = mutableListOf()
     val jobTitles: MutableList<JobTitle> = mutableListOf()
     val departments: MutableList<Department> = mutableListOf()
@@ -138,6 +129,8 @@ object Company {
      *
      * @param departmentName The name to search for
      * @param newName The new name to assign
+     *
+     * @throws DepartmentAlreadyExistsException If an existing department has the same name
      * */
     fun updateDepartment(departmentName: String, newName: String) {
         val department = findDepartment(departmentName)
@@ -153,7 +146,7 @@ object Company {
      * Adds a client to the company's client list if the client to add is not registered
      *
      * @param client The client to be added to the company's client list
-     * @throws ClientAlreadyExistsException If an existing client has the same name
+     * @throws ClientAlreadyExistsException If an existing client has the same ID, email, and/or phone number
      * */
     fun addClient(client: Client) {
         if (clients.any { it.id == client.id }) {
@@ -198,6 +191,8 @@ object Company {
      * @param email The new email
      * @param address The new address
      * @param phoneNumber The new phone number
+     *
+     * @throws FieldTakenException If the new email is taken and/or phone number is taken
      * */
     fun updateClient(
         clientId: String,
@@ -216,11 +211,13 @@ object Company {
             throw FieldTakenException("Phone number", phoneNumber)
         }
 
-        name?.let { client.name = it }
-        gender?.let { client.gender = it }
-        email?.let { client.email = it }
-        address?.let { client.address = it }
-        phoneNumber?.let { client.phoneNumber = it }
+        client.apply {
+            name?.let { this.name = it }
+            gender?.let { this.gender = it }
+            email?.let { this.email = it }
+            address?.let { this.address = it }
+            phoneNumber?.let { this.phoneNumber = it }
+        }
     }
 
     // ---------------- Job Title CRUD ----------------  //
@@ -260,10 +257,12 @@ object Company {
     }
 
     /**
-     * Updates a department's name
+     * Updates a job title's name
      *
-     * @param departmentName The name to search for
+     * @param jobTitleName The name to search for
      * @param newName The new name to assign
+     *
+     * @throws JobTitleAlreadyExistsException If there is a job title with the same name in the company's job title list
      * */
     fun updateJobTitle(jobTitleName: String, newName: String, newHierarchyLevel: Int) {
         val jobTitle = findJobTitle(jobTitleName)
