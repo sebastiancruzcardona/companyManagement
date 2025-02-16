@@ -1,6 +1,9 @@
 package model
 
-import model.Company.clients
+import FieldTakenException
+import JobTitleNotFoundException
+import SubordinateAlreadyRegisteredException
+import SubordinateNotFoundException
 import java.time.Year
 
 open class Employee(

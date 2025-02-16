@@ -1,5 +1,10 @@
 package model
 
+import EmployeeAlreadyExistsException
+import EmployeeNotFoundException
+import FieldTakenException
+import JobTitleNotFoundException
+
 class Department(
     var name: String,
 ) {
