@@ -1,4 +1,6 @@
 package model
+import java.time.LocalDateTime
+import java.time.LocalDate
 
 import FieldTakenException
 import JobTitleNotFoundException
@@ -12,19 +14,18 @@ open class Employee(
     gender: String,
     email: String,
     var salary: Double,
-    val entryYear: Int,
+    val entryDateTime: LocalDateTime = LocalDateTime.now(),
     var jobTitle: JobTitle
 ) : Person(id, name, gender, email) {
 
     val subordinates: MutableList<Employee> = mutableListOf()
 
     /**
-     * Calculates an employee's total time in the company (in years)
+     * Calculates an employee's total time in the company (in full years elapsed)
      *
-     * @param currentYear Defaults to Year.now()
-     * @return Difference between employee's entry year and given year
+     * @return Difference between employee's entry date and now
      */
-    fun getTimeInCompany(currentYear: Int = Year.now().value): Int = currentYear - entryYear
+    fun getTimeInCompany(): Int = entryDateTime.toLocalDate().until(LocalDate.now()).years
 
     // ---------------- Subordinate CRUD ----------------  //
 

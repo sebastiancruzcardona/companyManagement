@@ -1,4 +1,5 @@
 package model
+import java.time.LocalDateTime
 
 import ClientAlreadyExistsException
 import ClientNotFoundException
@@ -27,7 +28,7 @@ object Company {
     fun init(
         department: Department = Department("Central Department"),
         jobTitle: JobTitle = JobTitle("CEO", 5),
-        employee: Employee = Employee("1", "One", "None", "Email", 50.00, 2025, jobTitle),
+        employee: Employee = Employee("1", "One", "None", "Email", 50.00, LocalDateTime.now(), jobTitle),
     ): Boolean {
         jobTitles.add(jobTitle)
         val defaultDepartments = listOf(
@@ -91,7 +92,7 @@ object Company {
      * @return Map<Employee, Department>
      */
     fun getOldestEmployee(): Map<Employee, Department> {
-        val oldestEmployee = getAllEmployees().minByOrNull { it.entryYear }!!
+        val oldestEmployee = getAllEmployees().minByOrNull { it.entryDateTime }!!
         val department = departments.find { department ->
             department.employees.any { it.id == oldestEmployee.id } }!! // non-null assertion (!!) because there is always at least one employee (and therefore, at least one department)
         return mapOf(oldestEmployee to department)
