@@ -9,6 +9,7 @@ import DepartmentNotFoundException
 import FieldTakenException
 import JobTitleAlreadyExistsException
 import JobTitleNotFoundException
+import NoClientsException
 
 object Company {
     private val legalName: String = "Company Name"
@@ -50,6 +51,7 @@ object Company {
      */
     fun getAllEmployees(): List<Employee> =
         departments.flatMap { it.employees }
+
 
     // ---------------- Business Logic ----------------  //
 
@@ -99,15 +101,18 @@ object Company {
     }
 
     /**
-     * Calculates the percentage of employees by their gender
+     * Calculates the percentage of clients by their gender
      *
      * @return Map<String, Double> Where the key is the gender and the value is the percentage
-     *         of employees with said gender (rounded up to 2 decimal spaces)
+     *         of clients with said gender (rounded up to 2 decimal spaces)
      */
     fun getPercentageClientsByGender(): Map<String, Double> {
-        val genderCount = getAllEmployees().groupingBy { it.gender }.eachCount() // groups employees by gender and total with said gender ({ "male" to 7, "female" to 8 }, etc).
+        if(clients.isEmpty()){
+            throw NoClientsException()
+        }
+        val genderCount = clients.groupingBy { it.gender }.eachCount()  // groups employees by gender and total with said gender ({ "male" to 7, "female" to 8 }, etc).
         return genderCount.mapValues { (_, count) -> // "_" means we ignore the key (gender) and modify only the value (count of employees with said gender)
-            "%.2f".format((count.toDouble()/ getAllEmployees().size) * 100).toDouble() // converts the count to double to ensure accurate division, divides by total amount of employees, and multiplies by 100 to convert into percentage
+            "%.2f".format((count.toDouble()/ clients.size) * 100).toDouble() // converts the count to double to ensure accurate division, divides by total amount of employees, and multiplies by 100 to convert into percentage
             // additionally, rounds up to two decimal places
         }
     }

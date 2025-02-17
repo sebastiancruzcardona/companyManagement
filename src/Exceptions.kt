@@ -4,6 +4,7 @@ class DepartmentAlreadyExistsException(name: String) : Exception("Department '$n
 class ClientNotFoundException(id: String) : Exception("Couldn't find client with ID '$id'")
 class ClientAlreadyExistsException(field: String, id: String) : Exception("Client with $field '$id' already exists")
 class FieldTakenException(field: String, value: String) : Exception("$field '$value' is already taken")
+class NoClientsException() : Exception("The company doesn't have any registered client yet")
 
 class JobTitleNotFoundException(name: String) : Exception("Couldn't find job title '$name'")
 class JobTitleAlreadyExistsException(name: String) : Exception("Job title '$name' already exists")
